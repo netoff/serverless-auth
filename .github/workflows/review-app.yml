@@ -1,5 +1,5 @@
 ---
-name: 'deploy'
+name: 'review-app'
 
 # yamllint disable-line rule:truthy
 on:
@@ -37,7 +37,7 @@ jobs:
         with:
           # destroy a review app
           command: review-apps:destroy
-          git_remote_url: 'ssh://dokku@dokku.me:22/appname'
+          git_remote_url: 'ssh://dokku@dokku.rubysoft.dev:22/serverless-auth'
           # specify a name for the review app
           review_app_name: review-appname-${{ github.event.pull_request.number }}
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
