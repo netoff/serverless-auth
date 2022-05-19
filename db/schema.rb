@@ -10,8 +10,42 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 0) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_05_205947) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "accounts", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "admins", force: :cascade do |t|
+    t.string "email"
+    t.string "password_digest"
+    t.string "api_key"
+    t.string "account_title"
+    t.text "private_key"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["api_key"], name: "index_admins_on_api_key", unique: true
+    t.index ["email"], name: "index_admins_on_email", unique: true
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "email"
+    t.string "password_digest"
+    t.json "data"
+    t.boolean "subscribed", default: false
+    t.string "plan_id"
+    t.string "stripe_id"
+    t.bigint "admin_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "account_id"
+    t.index ["account_id"], name: "index_users_on_account_id"
+    t.index ["admin_id", "email"], name: "index_users_on_admin_id_and_email", unique: true
+    t.index ["admin_id"], name: "index_users_on_admin_id"
+  end
 
 end
